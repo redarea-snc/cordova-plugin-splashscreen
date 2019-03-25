@@ -25,8 +25,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.ColorStateList;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.view.Display;
 import android.view.Gravity;
@@ -210,7 +212,15 @@ public class SplashScreen extends CordovaPlugin {
             if (splashImageView != null) {
                 int drawableId = getSplashId();
                 if (drawableId != 0) {
-                    splashImageView.setImageDrawable(cordova.getActivity().getResources().getDrawable(drawableId));
+                    Drawable drawable = null;
+                    try{
+                        drawable = cordova.getActivity().getResources().getDrawable(drawableId);
+                    }
+                    catch (Resources.NotFoundException e){}
+
+                    if(drawable != null){
+                        splashImageView.setImageDrawable(cordova.getActivity().getResources().getDrawable(drawableId));
+                    }
                 }
             }
         }
